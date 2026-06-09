@@ -198,12 +198,12 @@ header.scrolled .nav{padding:11px 26px}
 .ftext .price b{color:var(--gold-bright)}
 .fshot{position:relative;min-height:340px;background:linear-gradient(140deg,#171309,#0b0905);overflow:hidden}
 .fshot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
-/* curtain reveal — two velvet halves that part on hover (PC) / .active (mobile center) */
-.fshot::before,.fshot::after{content:"";position:absolute;top:0;bottom:0;width:51%;z-index:3;pointer-events:none;
-  background:repeating-linear-gradient(90deg,#0a0703 0,#1d1409 9px,#0a0703 18px),linear-gradient(180deg,#181107,#090603);
-  transition:transform .85s cubic-bezier(.76,0,.18,1)}
-.fshot::before{left:0;border-right:1px solid var(--gold-deep);box-shadow:inset -24px 0 36px rgba(0,0,0,.5),inset 0 0 55px rgba(0,0,0,.55)}
-.fshot::after{right:0;border-left:1px solid var(--gold-deep);box-shadow:inset 24px 0 36px rgba(0,0,0,.5),inset 0 0 55px rgba(0,0,0,.55)}
+/* curtain reveal — a single translucent veil that slides right, unveiling the photo (PC hover / .active mobile center) */
+.fshot::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:linear-gradient(90deg,rgba(9,6,3,.5),rgba(9,6,3,.7));
+  border-right:2px solid rgba(230,194,90,.5);box-shadow:inset -28px 0 46px rgba(0,0,0,.45);
+  transition:transform .9s cubic-bezier(.76,0,.18,1)}
+.fshot::after{content:none}
 
 .svc-index{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:linear-gradient(160deg,#0e0c07,#0a0806)}
 .idx-row{
@@ -220,19 +220,17 @@ header.scrolled .nav{padding:11px 26px}
 .idx-shot{position:relative;width:130px;height:74px;border-radius:9px;overflow:hidden;justify-self:end;align-self:center;
   background:linear-gradient(140deg,#171309,#0b0905);border:1px solid var(--line-soft);transition:.42s}
 .idx-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.62) saturate(.9);transition:.5s}
-.idx-shot::before,.idx-shot::after{content:"";position:absolute;top:0;bottom:0;width:51%;z-index:3;pointer-events:none;
-  background:repeating-linear-gradient(90deg,#0a0703 0,#1d1409 6px,#0a0703 12px),linear-gradient(180deg,#181107,#090603);
-  transition:transform .7s cubic-bezier(.76,0,.18,1)}
-.idx-shot::before{left:0;border-right:1px solid var(--gold-deep)}
-.idx-shot::after{right:0;border-left:1px solid var(--gold-deep)}
+.idx-shot::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
+  background:linear-gradient(90deg,rgba(9,6,3,.5),rgba(9,6,3,.7));border-right:2px solid rgba(230,194,90,.45);
+  transition:transform .8s cubic-bezier(.76,0,.18,1)}
+.idx-shot::after{content:none}
 .idx-shot.icononly{display:grid;place-items:center}
 .idx-shot.icononly svg{width:40px;height:40px;stroke:var(--gold-deep);fill:none;stroke-width:1.4}
 .idx-row .price{font-family:'Cinzel',serif;color:var(--muted);font-size:.82rem;letter-spacing:.05em;white-space:nowrap}
 
 @media (hover:hover) and (min-width:861px){
   /* the big Signature Fades tab: curtain parts on hover */
-  .feature:hover .fshot::before{transform:translateX(-101%)}
-  .feature:hover .fshot::after{transform:translateX(101%)}
+  .feature:hover .fshot::before{transform:translateX(101%)}
   /* each subsection grows to ~70% of the Signature Fades tab (240/340); photo fills ~50%, curtain parts */
   .idx-row:hover{grid-template-columns:78px 1fr 50%;min-height:240px;align-items:stretch;
     background:linear-gradient(120deg,rgba(230,194,90,.05),transparent)}
@@ -241,13 +239,11 @@ header.scrolled .nav{padding:11px 26px}
   .idx-row:hover .idx-main p{opacity:1;max-height:100px}
   .idx-row:hover .idx-shot{width:auto;height:auto;justify-self:stretch;align-self:stretch;border-radius:0;border:0;border-left:1px solid var(--line)}
   .idx-row:hover .idx-shot img{object-fit:cover;filter:brightness(1) saturate(1);background:linear-gradient(140deg,#15110a,#0b0905)}
-  .idx-row:hover .idx-shot::before{transform:translateX(-101%)}
-  .idx-row:hover .idx-shot::after{transform:translateX(101%)}
+  .idx-row:hover .idx-shot::before{transform:translateX(101%)}
   .idx-row:hover .idx-shot.icononly svg{width:60px;height:60px;stroke:var(--gold)}
 }
 /* centered-in-viewport reveal (touch / mobile — toggled by JS) */
-.feature.active .fshot::before{transform:translateX(-101%)}
-.feature.active .fshot::after{transform:translateX(101%)}
+.feature.active .fshot::before{transform:translateX(101%)}
 .idx-row.active{grid-template-columns:78px 1fr 50%;min-height:240px;align-items:stretch;
   background:linear-gradient(120deg,rgba(230,194,90,.05),transparent)}
 .idx-row.active .idx-num{color:var(--gold-bright);font-size:1.8rem}
@@ -255,8 +251,7 @@ header.scrolled .nav{padding:11px 26px}
 .idx-row.active .idx-main p{opacity:1;max-height:100px}
 .idx-row.active .idx-shot{width:auto;height:auto;justify-self:stretch;align-self:stretch;border-radius:0;border:0;border-left:1px solid var(--line)}
 .idx-row.active .idx-shot img{object-fit:cover;filter:brightness(1) saturate(1);background:linear-gradient(140deg,#15110a,#0b0905)}
-.idx-row.active .idx-shot::before{transform:translateX(-101%)}
-.idx-row.active .idx-shot::after{transform:translateX(101%)}
+.idx-row.active .idx-shot::before{transform:translateX(101%)}
 .idx-row.active .idx-shot.icononly svg{width:60px;height:60px;stroke:var(--gold)}
 
 /* ---------- GALLERY ---------- */
@@ -403,6 +398,16 @@ footer{border-top:1px solid var(--line-soft);background:#08070500;background:#08
   .foot{grid-template-columns:1fr;gap:30px}
   .frow{grid-template-columns:1fr}
   .hero{padding:120px 18px 86px}
+  /* service index — stack each row so the haircut photo is large & legible on phones */
+  .svc-index .idx-row,.svc-index .idx-row.active{grid-template-columns:1fr;min-height:0;align-items:stretch;padding:0;gap:0;background:none}
+  .svc-index .idx-num{display:none}
+  .svc-index .idx-main{padding:24px 22px 18px}
+  .svc-index .idx-main h3{font-size:1.34rem}
+  .svc-index .idx-main p,.svc-index .idx-row.active .idx-main p{opacity:1;max-height:none;max-width:none;margin-top:10px}
+  .svc-index .idx-shot,.svc-index .idx-row.active .idx-shot{width:100%;height:230px;justify-self:stretch;align-self:stretch;border-radius:0;border:0;border-top:1px solid var(--line-soft)}
+  .svc-index .idx-shot img,.svc-index .idx-row.active .idx-shot img{filter:brightness(1) saturate(1)}
+  .svc-index .idx-shot.icononly{height:150px}
+  .svc-index .idx-shot.icononly svg{width:54px;height:54px}
 }
 /* ---- area price calculator ---- */
 .calc{max-width:560px;margin:0 auto;text-align:center}
