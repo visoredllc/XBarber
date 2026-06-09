@@ -197,8 +197,13 @@ header.scrolled .nav{padding:11px 26px}
 .ftext .price{font-family:'Cinzel',serif;color:var(--cream);font-size:1.02rem;letter-spacing:.04em}
 .ftext .price b{color:var(--gold-bright)}
 .fshot{position:relative;min-height:340px;background:linear-gradient(140deg,#171309,#0b0905);overflow:hidden}
-.fshot img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center}
-.fshot::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,9,7,.55),transparent 30%);pointer-events:none}
+.fshot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+/* curtain reveal — two velvet halves that part on hover (PC) / .active (mobile center) */
+.fshot::before,.fshot::after{content:"";position:absolute;top:0;bottom:0;width:51%;z-index:3;pointer-events:none;
+  background:repeating-linear-gradient(90deg,#0a0703 0,#1d1409 9px,#0a0703 18px),linear-gradient(180deg,#181107,#090603);
+  transition:transform .85s cubic-bezier(.76,0,.18,1)}
+.fshot::before{left:0;border-right:1px solid var(--gold-deep);box-shadow:inset -24px 0 36px rgba(0,0,0,.5),inset 0 0 55px rgba(0,0,0,.55)}
+.fshot::after{right:0;border-left:1px solid var(--gold-deep);box-shadow:inset 24px 0 36px rgba(0,0,0,.5),inset 0 0 55px rgba(0,0,0,.55)}
 
 .svc-index{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:linear-gradient(160deg,#0e0c07,#0a0806)}
 .idx-row{
@@ -215,20 +220,44 @@ header.scrolled .nav{padding:11px 26px}
 .idx-shot{position:relative;width:130px;height:74px;border-radius:9px;overflow:hidden;justify-self:end;align-self:center;
   background:linear-gradient(140deg,#171309,#0b0905);border:1px solid var(--line-soft);transition:.42s}
 .idx-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.62) saturate(.9);transition:.5s}
+.idx-shot::before,.idx-shot::after{content:"";position:absolute;top:0;bottom:0;width:51%;z-index:3;pointer-events:none;
+  background:repeating-linear-gradient(90deg,#0a0703 0,#1d1409 6px,#0a0703 12px),linear-gradient(180deg,#181107,#090603);
+  transition:transform .7s cubic-bezier(.76,0,.18,1)}
+.idx-shot::before{left:0;border-right:1px solid var(--gold-deep)}
+.idx-shot::after{right:0;border-left:1px solid var(--gold-deep)}
 .idx-shot.icononly{display:grid;place-items:center}
 .idx-shot.icononly svg{width:40px;height:40px;stroke:var(--gold-deep);fill:none;stroke-width:1.4}
 .idx-row .price{font-family:'Cinzel',serif;color:var(--muted);font-size:.82rem;letter-spacing:.05em;white-space:nowrap}
 
 @media (hover:hover) and (min-width:861px){
-  .idx-row:hover{grid-template-columns:78px 1fr 50%;min-height:248px;align-items:stretch;
+  /* the big Signature Fades tab: curtain parts on hover */
+  .feature:hover .fshot::before{transform:translateX(-101%)}
+  .feature:hover .fshot::after{transform:translateX(101%)}
+  /* each subsection grows to ~70% of the Signature Fades tab (240/340); photo fills ~50%, curtain parts */
+  .idx-row:hover{grid-template-columns:78px 1fr 50%;min-height:240px;align-items:stretch;
     background:linear-gradient(120deg,rgba(230,194,90,.05),transparent)}
   .idx-row:hover .idx-num{color:var(--gold-bright);font-size:1.8rem}
   .idx-row:hover .idx-main h3{color:var(--gold-bright)}
   .idx-row:hover .idx-main p{opacity:1;max-height:100px}
-  .idx-row:hover .idx-shot{width:auto;height:auto;border-radius:0;position:absolute;inset:0;left:50%;border:0;border-left:1px solid var(--line)}
-  .idx-row:hover .idx-shot img{object-fit:contain;filter:brightness(1) saturate(1);background:linear-gradient(140deg,#15110a,#0b0905)}
+  .idx-row:hover .idx-shot{width:auto;height:auto;justify-self:stretch;align-self:stretch;border-radius:0;border:0;border-left:1px solid var(--line)}
+  .idx-row:hover .idx-shot img{object-fit:cover;filter:brightness(1) saturate(1);background:linear-gradient(140deg,#15110a,#0b0905)}
+  .idx-row:hover .idx-shot::before{transform:translateX(-101%)}
+  .idx-row:hover .idx-shot::after{transform:translateX(101%)}
   .idx-row:hover .idx-shot.icononly svg{width:60px;height:60px;stroke:var(--gold)}
 }
+/* centered-in-viewport reveal (touch / mobile — toggled by JS) */
+.feature.active .fshot::before{transform:translateX(-101%)}
+.feature.active .fshot::after{transform:translateX(101%)}
+.idx-row.active{grid-template-columns:78px 1fr 50%;min-height:240px;align-items:stretch;
+  background:linear-gradient(120deg,rgba(230,194,90,.05),transparent)}
+.idx-row.active .idx-num{color:var(--gold-bright);font-size:1.8rem}
+.idx-row.active .idx-main h3{color:var(--gold-bright)}
+.idx-row.active .idx-main p{opacity:1;max-height:100px}
+.idx-row.active .idx-shot{width:auto;height:auto;justify-self:stretch;align-self:stretch;border-radius:0;border:0;border-left:1px solid var(--line)}
+.idx-row.active .idx-shot img{object-fit:cover;filter:brightness(1) saturate(1);background:linear-gradient(140deg,#15110a,#0b0905)}
+.idx-row.active .idx-shot::before{transform:translateX(-101%)}
+.idx-row.active .idx-shot::after{transform:translateX(101%)}
+.idx-row.active .idx-shot.icononly svg{width:60px;height:60px;stroke:var(--gold)}
 
 /* ---------- GALLERY ---------- */
 .gal{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:200px;gap:14px}
@@ -401,6 +430,23 @@ footer{border-top:1px solid var(--line-soft);background:#08070500;background:#08
 .calc-opt{padding:11px 18px;border-radius:9px;font-family:'Cormorant Garamond',serif;font-size:1.22rem;color:var(--cream);cursor:pointer}
 .calc-opt:hover,.calc-opt.active{background:rgba(230,194,90,.16)}
 .calc-empty{padding:12px 18px;color:rgba(242,232,210,.5);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:1.05rem}
+/* ---- full rate list (by area) ---- */
+.rates{max-width:1010px;margin:66px auto 0}
+.rates-head{text-align:center;margin-bottom:36px}
+.rates-eyebrow{font-family:'Cinzel',serif;font-weight:600;font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);display:inline-block}
+.rates-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.14rem;color:var(--muted);margin-top:9px}
+.rates-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.rate-tier{display:flex;flex-direction:column;justify-content:center;border:1px solid var(--line);border-radius:14px;background:linear-gradient(165deg,#0f0c07,#0a0806);padding:28px 16px 24px;text-align:center;transition:border-color .35s,transform .35s,box-shadow .35s}
+@media(hover:hover){.rate-tier:hover{border-color:rgba(230,194,90,.42);transform:translateY(-6px);box-shadow:0 26px 54px -26px rgba(0,0,0,.85)}}
+.rate-price{font-family:'Cinzel',serif;font-weight:700;font-size:2.55rem;line-height:1;background:linear-gradient(180deg,var(--gold-bright),var(--gold-deep));-webkit-background-clip:text;background-clip:text;color:transparent}
+.rate-cur{font-size:1.2rem;vertical-align:super;margin-right:1px}
+.rate-rule{height:1px;width:36px;margin:15px auto 17px;border:0;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.rate-cities{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.rate-cities li{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--cream);letter-spacing:.01em}
+.rates-foot{text-align:center;margin-top:30px;font-size:.98rem;color:rgba(242,232,210,.55)}
+.rates-foot a{color:var(--gold);text-decoration:underline;text-underline-offset:3px}
+@media(max-width:880px){.rates-grid{grid-template-columns:repeat(2,1fr)}.rate-tier{padding:26px 14px 22px}}
+@media(max-width:460px){.rates-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -546,6 +592,40 @@ footer{border-top:1px solid var(--line-soft);background:#08070500;background:#08
         </div>
       </div>
       <p class="calc-note" data-en="Don't see your city? <a href='#contact'>Message us</a> — we cover most of South Florida." data-es="¿No ves tu ciudad? <a href='#contact'>Escríbenos</a> — cubrimos casi todo el sur de Florida.">Don't see your city? <a href="#contact">Message us</a> — we cover most of South Florida.</p>
+    </div>
+    <div class="rates reveal" id="rates">
+      <div class="rates-head">
+        <span class="rates-eyebrow" data-en="The Full List" data-es="La Lista Completa">The Full List</span>
+        <p class="rates-sub" data-en="Flat house-call rates by area — what you see is what you pay." data-es="Tarifas fijas a domicilio por zona — lo que ves es lo que pagas.">Flat house-call rates by area &mdash; what you see is what you pay.</p>
+      </div>
+      <div class="rates-grid">
+        <div class="rate-tier">
+          <div class="rate-price"><span class="rate-cur">$</span>50</div>
+          <hr class="rate-rule">
+          <ul class="rate-cities"><li>Hialeah</li><li>Doral</li><li>Fontainebleau</li></ul>
+        </div>
+        <div class="rate-tier">
+          <div class="rate-price"><span class="rate-cur">$</span>60</div>
+          <hr class="rate-rule">
+          <ul class="rate-cities"><li>Kendall</li><li>Miami Gardens</li></ul>
+        </div>
+        <div class="rate-tier">
+          <div class="rate-price"><span class="rate-cur">$</span>70</div>
+          <hr class="rate-rule">
+          <ul class="rate-cities"><li>Pembroke Pines</li></ul>
+        </div>
+        <div class="rate-tier">
+          <div class="rate-price"><span class="rate-cur">$</span>80</div>
+          <hr class="rate-rule">
+          <ul class="rate-cities"><li>Davie</li><li>Coral Gables</li></ul>
+        </div>
+        <div class="rate-tier">
+          <div class="rate-price"><span class="rate-cur">$</span>100</div>
+          <hr class="rate-rule">
+          <ul class="rate-cities"><li>Miami Beach</li><li>Sunny Isles</li><li>Hollywood</li></ul>
+        </div>
+      </div>
+      <p class="rates-foot" data-en="Outside these areas? <a href='#contact'>Message us</a> &mdash; we cover most of South Florida." data-es="¿Fuera de estas zonas? <a href='#contact'>Escríbenos</a> &mdash; cubrimos casi todo el sur de Florida.">Outside these areas? <a href="#contact">Message us</a> &mdash; we cover most of South Florida.</p>
     </div>
   </div>
 </section>
@@ -883,6 +963,34 @@ mm.querySelectorAll('a').forEach(a=>a.onclick=()=>mm.classList.remove('open'));
 // reveal on scroll
 const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+// touch / mobile: reveal the haircut photo for the service row nearest the viewport's center.
+// Decision uses each row's NATURAL (collapsed) document position, captured with nothing expanded,
+// so the active row's own growth never shifts which row is chosen (no flicker / skipping).
+(function(){
+  const rows=[...document.querySelectorAll('#services .feature, .svc-index .idx-row')];
+  if(!rows.length) return;
+  const touch=window.matchMedia('(hover:none),(max-width:860px)');
+  let on=false, ticking=false, bands=[];
+  function measure(){
+    rows.forEach(r=>r.classList.remove('active'));        // strip expansion so offsets are natural
+    bands=rows.map(r=>{const b=r.getBoundingClientRect();const top=scrollY+b.top;return{top,bottom:top+b.height,mid:top+b.height/2};});
+  }
+  function update(){
+    ticking=false;
+    const center=scrollY+innerHeight*0.5;
+    let best=-1,bd=Infinity;
+    for(let i=0;i<bands.length;i++){const d=Math.abs(bands[i].mid-center);if(d<bd){bd=d;best=i;}}
+    if(best>-1 && (center<bands[0].top-120 || center>bands[bands.length-1].bottom+120)) best=-1;
+    rows.forEach((r,i)=>r.classList.toggle('active',i===best));
+  }
+  function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(update);}}
+  function onResize(){measure();update();}
+  function start(){if(on)return;on=true;measure();addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onResize,{passive:true});update();}
+  function stop(){if(!on)return;on=false;removeEventListener('scroll',onScroll);removeEventListener('resize',onResize);rows.forEach(r=>r.classList.remove('active'));}
+  const sync=()=>touch.matches?start():stop();
+  touch.addEventListener?touch.addEventListener('change',sync):touch.addListener(sync);
+  sync();
+})();
 // form (demo)
 document.getElementById('submitBtn').onclick=()=>{
   const t=document.getElementById('toast');
